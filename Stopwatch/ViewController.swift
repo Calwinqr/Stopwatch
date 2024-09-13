@@ -80,7 +80,7 @@ class ViewController: UIViewController {
             lapResetBtn.isEnabled=false
         }
         else{
-            if let time=mainStopwatchLabel.text{
+            if let time=lapStopwatchLabel.text{
                 laps.append(time)
             }
             lapsTableView.reloadData()
@@ -120,6 +120,7 @@ class ViewController: UIViewController {
     
     func resetMainTimer(){
         mainStopwatch.timer.invalidate()
+        mainStopwatch.counter=0.0
         mainStopwatchLabel.text="00:00:00"
         laps.removeAll()
         lapsTableView.reloadData()
@@ -127,6 +128,7 @@ class ViewController: UIViewController {
     
     func resetLapTimer(){
         lapStopwatch.timer.invalidate()
+        lapStopwatch.counter=0.0
         lapStopwatchLabel.text="00:00:00"
     }
     
@@ -140,10 +142,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let lap = tableView.dequeueReusableCell(withIdentifier: "lap", for: indexPath)
         if let labelNum = lap.viewWithTag(11) as? UILabel {
-              labelNum.text = "Lap \(laps.count - (indexPath as NSIndexPath).row)"
+              labelNum.text = "Lap \(laps.count - indexPath.row)"
         }
         if let labelTimer = lap.viewWithTag(12) as? UILabel {
-              labelTimer.text = laps[laps.count - (indexPath as NSIndexPath).row - 1]
+            labelTimer.text = laps[laps.count - indexPath.row - 1]
         }
         return lap
     }
